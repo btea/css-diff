@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css diff</title>
+    <script src="./diff_patch.js"></script>
+    <style>
+        .head h2 {
+            text-align: center;
+        }
+
+        .title-name {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .title-name .left {
+            flex: 1;
+            text-align: center;
+        }
+
+        .title-name .right {
+            flex: 1;
+            text-align: center;
+        }
+
+        .show-value {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .show-value textarea {
+            width: 49%;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="diff-con">
+        <div class="head">
+            <h2>diff</h2>
+            <div class="title-name">
+                <div class="left">Before(gulp-clean-css)</div>
+                <div class="right">After(cssnano)</div>
+            </div>
+        </div>
+    </div>
+    <script src="./diff_data.js"></script>
+    <script>
+
+        let dmp = new diff_match_patch();
+        let list = this.resultData;
+        let container = document.querySelector('.diff-con');
+
+        list.forEach(item => {
+            let diff = dmp.diff_main(item.origin, item.new);
+            let html = dmp.diff_prettyHtml(diff);
+            let div = document.createElement('div');
+            div.className = 'diff-item-result';
+            const showValue = document.createElement('div');
+            showValue.className = 'show-value';
+            const beforeEl = document.createElement('textarea');
+            beforeEl.value = item.origin;
+            beforeEl.readOnly = true;
+            const afterEl = document.createElement('textarea');
+            afterEl.value = item.new;
+            afterEl.readOnly = true;
+            showValue.appendChild(beforeEl);
+            showValue.appendChild(afterEl);
+            const title = document.createElement('h3');
+            title.innerHTML = item.name;
+            div.appendChild(title);
+            const diff_str = document.createElement('div');
+            diff_str.innerHTML = html;
+            div.appendChild(showValue);
+            div.appendChild(diff_str);
+            container.appendChild(div);
+        })
+    </script>
+</body>
+
+</html>
