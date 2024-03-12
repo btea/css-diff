@@ -58,6 +58,7 @@
 
         list.forEach(item => {
             let diff = dmp.diff_main(item.origin, item.new);
+            dmp.diff_cleanupSemantic(diff);
             let html = dmp.diff_prettyHtml(diff);
             let div = document.createElement('div');
             div.className = 'diff-item-result';
