@@ -55,6 +55,8 @@
         let dmp = new diff_match_patch();
         let list = this.resultData;
         let container = document.querySelector('.diff-con');
+        let beforeLength = 0
+        let afterLength = 0
 
         list.forEach(item => {
             let diff = dmp.diff_main(item.origin, item.new);
@@ -73,7 +75,9 @@
             showValue.appendChild(beforeEl);
             showValue.appendChild(afterEl);
             const title = document.createElement('h3');
-            title.innerHTML = item.name;
+            title.innerHTML = item.name + `(${item.origin.length} / ${item.new.length})`;
+            beforeLength += item.origin.length
+            afterLength += item.new.length
             div.appendChild(title);
             const diff_str = document.createElement('div');
             diff_str.innerHTML = html;
@@ -81,6 +85,10 @@
             div.appendChild(diff_str);
             container.appendChild(div);
         })
+        const left = container.querySelector('.left')
+        const right = container.querySelector('.right')
+        left.textContent = left.textContent  + '/ ' + beforeLength
+        right.textContent = right.textContent + '/ ' + afterLength
     </script>
 </body>
 
