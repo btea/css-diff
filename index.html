@@ -80,7 +80,7 @@
             afterLength += item.new.length
             div.appendChild(title);
             const diff_str = document.createElement('div');
-            diff_str.innerHTML = html;
+            diff_str.innerHTML = html.replace(/({|})/g, '<span style="color: #6cf"> $1 </span>');
             div.appendChild(showValue);
             div.appendChild(diff_str);
             container.appendChild(div);
