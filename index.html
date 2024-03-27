@@ -41,6 +41,17 @@
 
 <body>
     <div class="diff-con">
+        <div class="custom">
+            <div class="title-name">
+                <div class="left">
+                    <textarea class="aa" placeholder="after"></textarea>
+                </div>
+                <div class="right">
+                    <textarea class="bb" placeholder="before"></textarea>
+                </div>
+            </div>
+            <button onclick="diff()">diff</button>
+        </div>
         <div class="head">
             <h2>diff</h2>
             <div class="title-name">
@@ -89,6 +100,18 @@
         const right = container.querySelector('.right')
         left.textContent = left.textContent  + '/ ' + beforeLength
         right.textContent = right.textContent + '/ ' + afterLength
+
+        function diff() {
+            const aa = document.querySelector('.aa').value
+            const bb = document.querySelector('.bb').value
+            let diff = dmp.diff_main(aa, bb);
+            dmp.diff_cleanupSemantic(diff);
+            let html = dmp.diff_prettyHtml(diff);
+            const diff_str = document.createElement('div');
+            diff_str.innerHTML = html.replace(/({|})/g, '<span style="color: #6cf"> $1 </span>');
+            const con = document.querySelector('.custom');
+            con.appendChild(diff_str);
+        }
     </script>
 </body>
 
